@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nkaroni Girls Senior School - Receipt & Fees System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/jpeg" href="logo.jpeg">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <img src="logo.jpeg" alt="Nkaroni Girls Senior School Logo" class="brand-logo" onerror="this.src=typeof SCHOOL_LOGO_BASE64!=='undefined'?SCHOOL_LOGO_BASE64:''">
+      <div class="brand-titles">
+        <h1>Nkaroni Girls Senior School</h1>
+        <p>Bursar & Accounts Management System &bull; Wamba, Samburu</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="badge-tag">Academic Year 2026</span>
+      <span class="badge-tag" style="background:#16a34a; border-color:#22c55e;">System Online</span>
+    </div>
+  </header>
+
+  <!-- App Navigation Tabs -->
+  <nav class="app-nav no-print">
+    <button class="nav-tab active" data-tab="dashboardPanel">
+      <span>📊</span> Dashboard
+    </button>
+    <button class="nav-tab" data-tab="studentsPanel">
+      <span>🎓</span> Students & Classes
+    </button>
+    <button class="nav-tab" data-tab="vendorsPanel">
+      <span>🏢</span> Vendors & Suppliers
+    </button>
+    <button class="nav-tab" data-tab="singleReceiptPanel">
+      <span>🧾</span> Issue Student Receipt
+    </button>
+    <button class="nav-tab" data-tab="batchReceiptPanel">
+      <span>📚</span> Class Batch Receipts
+    </button>
+    <button class="nav-tab" data-tab="capitationReceiptPanel">
+      <span>🏛️</span> MoE Capitation (FSDE)
+    </button>
+    <button class="nav-tab" data-tab="feeStructurePanel">
+      <span>📋</span> Fee Structure Generator
+    </button>
+    <button class="nav-tab" data-tab="historyPanel">
+      <span>📜</span> Receipt History
+    </button>
+    <button class="nav-tab" data-tab="settingsPanel">
+      <span>⚙️</span> Settings
+    </button>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="app-main">
+
+    <!-- 1. DASHBOARD PANEL -->
+    <div id="dashboardPanel" class="tab-panel active">
+      <div class="grid-4" style="margin-bottom: 1.5rem;">
+        <div class="stat-card">
+          <div class="stat-icon">🎓</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTotalStudents">0</div>
+            <div class="stat-label">Enrolled Students</div>
+          </div>
+        </div>
+
+        <div class="stat-card green">
+          <div class="stat-icon">💰</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTotalCollections">Ksh 0.00</div>
+            <div class="stat-label">Student Fees Collected</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🏛️</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTotalCapitation">Ksh 0.00</div>
+            <div class="stat-label">MoE Capitation (FSDE)</div>
+          </div>
+        </div>
+
+        <div class="stat-card amber">
+          <div class="stat-icon">🏢</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statTotalVendors">0</div>
+            <div class="stat-label">Vendors & Suppliers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Cards -->
+      <div class="grid-3" style="margin-bottom: 1.5rem;">
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title"><span>🧾</span> Issue Student Receipt</div>
+          <p style="font-size: 0.88rem; color: #64748b; margin: 0.5rem 0 1rem 0;">Quickly generate an official fee receipt for an individual student with automatic words conversion.</p>
+          <button class="btn btn-primary" onclick="document.querySelector(`.nav-tab[data-tab='singleReceiptPanel']`).click()">New Student Receipt</button>
+        </div>
+
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title"><span>📚</span> Class Batch Receipts</div>
+          <p style="font-size: 0.88rem; color: #64748b; margin: 0.5rem 0 1rem 0;">Generate receipts for an entire class roster in one click (e.g. Form 1, Form 2, Form 3, Form 4).</p>
+          <button class="btn btn-crimson" onclick="document.querySelector(`.nav-tab[data-tab='batchReceiptPanel']`).click()">Generate Class Batch</button>
+        </div>
+
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title"><span>📋</span> Fee Structure Generator</div>
+          <p style="font-size: 0.88rem; color: #64748b; margin: 0.5rem 0 1rem 0;">Print official school fee structures by class with termly breakdowns and payment channels.</p>
+          <button class="btn btn-secondary" onclick="document.querySelector(`.nav-tab[data-tab='feeStructurePanel']`).click()">View Fee Structures</button>
+        </div>
+      </div>
+
+      <!-- Recent Receipts Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>📜</span> Recent Receipts Issued</div>
+          <button class="btn btn-secondary btn-sm" onclick="document.querySelector(`.nav-tab[data-tab='historyPanel']`).click()">View All History</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Receipt No</th>
+                <th>Date</th>
+                <th>Received From / Paid To</th>
+                <th>Category</th>
+                <th>Amount (Ksh)</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="recentReceiptsTbody">
+              <!-- Loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. STUDENTS & CLASSES PANEL -->
+    <div id="studentsPanel" class="tab-panel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>🎓</span> Student Roster & Class Management</div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="btnAddStudent"><span>➕</span> Add New Student</button>
+            <button class="btn btn-secondary" id="btnImportCSV"><span>📥</span> Import Students CSV</button>
+            <a href="sample_students_template.csv" download="sample_students_template.csv" class="btn btn-secondary"><span>📄</span> Download Template</a>
+            <input type="file" id="csvStudentFileInput" accept=".csv" style="display:none;">
+          </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="form-row" style="margin-bottom: 1.25rem;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Filter by Class:</label>
+            <select class="form-select" id="studentClassFilter">
+              <option value="All">All Classes (Forms 1 - 4)</option>
+              <option value="Form 1">Form 1</option>
+              <option value="Form 2">Form 2</option>
+              <option value="Form 3">Form 3</option>
+              <option value="Form 4">Form 4</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0; flex:2;">
+            <label class="form-label">Search Student:</label>
+            <input type="text" class="form-control" id="studentSearchInput" placeholder="Search by Admission No, Student Name, or Parent...">
+          </div>
+        </div>
+
+        <!-- Students Table -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Adm No</th>
+                <th>Student Full Name</th>
+                <th>Class / Form</th>
+                <th>Parent / Guardian</th>
+                <th>Term Fee</th>
+                <th>Current Balance</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. VENDORS & SUPPLIERS PANEL -->
+    <div id="vendorsPanel" class="tab-panel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>🏢</span> School Vendors & Suppliers Directory</div>
+          <button class="btn btn-primary" id="btnAddVendor"><span>➕</span> Add New Vendor</button>
+        </div>
+
+        <div class="form-group" style="max-width: 450px; margin-bottom: 1.25rem;">
+          <label class="form-label">Search Vendor / Supplier:</label>
+          <input type="text" class="form-control" id="vendorSearchInput" placeholder="Search by name, category, or contact...">
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Vendor / Supplier Name</th>
+                <th>Category / Supply Service</th>
+                <th>Contact Person & Phone</th>
+                <th>Total Paid (Ksh)</th>
+                <th>Pending Balance (Ksh)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="vendorsTableBody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ISSUE STUDENT RECEIPT PANEL -->
+    <div id="singleReceiptPanel" class="tab-panel">
+      <div class="grid-2">
+        <!-- Form Left -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span>🧾</span> Issue Fee Receipt</div>
+            <div style="font-size:0.85rem; color:#64748b;">
+              Balance: <strong id="rcPrevBalance" style="color:#b91c1c;">Ksh 0.00</strong>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="flex:2;">
+              <label class="form-label">Select Enrolled Student:</label>
+              <select class="form-select" id="rcStudentSelect">
+                <!-- Dynamically loaded -->
+              </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">Adm No:</label>
+              <input type="text" class="form-control" id="rcAdmNoInput">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="flex:2;">
+              <label class="form-label">Student Name / Received From:</label>
+              <input type="text" class="form-control" id="rcNameInput">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">Class / Form:</label>
+              <input type="text" class="form-control" id="rcClassInput">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Payment Date:</label>
+              <input type="date" class="form-control" id="rcDateInput">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Mode:</label>
+              <select class="form-select" id="rcModeSelect">
+                <option value="M-Pesa">M-Pesa</option>
+                <option value="Bank Deposit">Bank Deposit (KCB)</option>
+                <option value="Cash">Cash</option>
+                <option value="Cheque / Banker's Cheque">Cheque</option>
+                <option value="EFT / Direct Transfer">EFT Transfer</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Transaction Ref / Chq No:</label>
+              <input type="text" class="form-control" id="rcRefInput" value="QKH918239A">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="flex:2;">
+              <label class="form-label">Account Category:</label>
+              <select class="form-select" id="rcAccountSelect">
+                <option value="Tuition & Boarding Account">Tuition & Boarding Account</option>
+                <option value="Operations Account">Operations Account</option>
+                <option value="Development Account">Development Account</option>
+                <option value="Activity Account">Activity Account</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">Phone No:</label>
+              <input type="text" class="form-control" id="rcPhoneInput">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Being Payment For:</label>
+            <input type="text" class="form-control" id="rcPurposeInput" value="School Fees Term 1 2026">
+          </div>
+
+          <!-- Vote Heads Section -->
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:1rem; margin-bottom:1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <strong style="font-size:0.9rem; color:#1e3a8a;">Vote Heads Allocation (Optional Breakdown)</strong>
+              <select class="form-select" id="rcPresetVoteheads" style="width:auto; padding:0.25rem 0.5rem; font-size:0.8rem;">
+                <option value="">-- Apply Preset --</option>
+                <option value="standard">Standard Term Breakdown</option>
+                <option value="boarding">Boarding & Welfare</option>
+              </select>
+            </div>
+
+            <div id="rcVoteheadsList">
+              <!-- Dynamically added vote heads -->
+            </div>
+
+            <button type="button" class="btn btn-secondary btn-sm" id="btnAddVoteheadRow" style="margin-top:0.5rem;">
+              <span>➕</span> Add Item
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Total Amount Paid (Ksh):</label>
+            <input type="number" class="form-control" id="rcAmountInput" style="font-size:1.15rem; font-weight:bold; color:#1e3a8a;" value="20000" step="any">
+          </div>
+
+          <!-- Actions -->
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1.5rem;">
+            <button class="btn btn-primary" id="btnPrintSingleReceipt">
+              <span>🖨️</span> Print Single Receipt (A4)
+            </button>
+            <button class="btn btn-crimson" id="btnPrintDoubleReceipt">
+              <span>📄</span> Print 2-on-1 (Original + Copy)
+            </button>
+            <button class="btn btn-secondary" id="btnSaveReceiptRecord">
+              <span>💾</span> Save Record Only
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview Right -->
+        <div>
+          <div class="card" style="padding: 1rem;">
+            <div class="card-header" style="margin-bottom: 0.75rem;">
+              <div class="card-title"><span>👁️</span> Authentic Receipt Live Preview</div>
+              <span class="badge-tag" style="background:#f1f5f9; color:#475569;">Matching School Standard</span>
+            </div>
+            <div class="receipt-container-preview" id="singleReceiptPreviewArea">
+              <!-- Populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. CLASS BATCH RECEIPTS PANEL -->
+    <div id="batchReceiptPanel" class="tab-panel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>📚</span> Generate Receipts for Entire Class</div>
+          <span class="badge-tag" style="background:#dbeafe; color:#1e40af;">Fast Bulk Processing</span>
+        </div>
+
+        <p style="font-size: 0.9rem; color:#475569; margin-bottom:1.25rem;">
+          Select a class to load its enrolled students. You can set a standard fee amount for all students or adjust individual amounts directly in the table.
+        </p>
+
+        <!-- Batch Controls -->
+        <div class="form-row" style="margin-bottom: 1.25rem;">
+          <div class="form-group">
+            <label class="form-label">1. Select Target Class:</label>
+            <select class="form-select" id="batchClassSelect">
+              <option value="Form 1">Form 1</option>
+              <option value="Form 2">Form 2</option>
+              <option value="Form 3">Form 3</option>
+              <option value="Form 4">Form 4</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">2. Issue Date:</label>
+            <input type="date" class="form-control" id="batchDateInput">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">3. Default Payment Mode:</label>
+            <select class="form-select" id="batchModeSelect">
+              <option value="Bank Deposit">Bank Deposit</option>
+              <option value="M-Pesa">M-Pesa</option>
+              <option value="Cash">Cash</option>
+              <option value="Cheque">Cheque</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">4. Print Paper Layout:</label>
+            <select class="form-select" id="batchPrintLayout">
+              <option value="2up">2 Receipts per A4 Sheet (Save 50% Paper)</option>
+              <option value="1up">1 Receipt per A4 Page (Full Page)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-bottom: 1.5rem; background:#f8fafc; padding:1rem; border-radius:8px; border:1px solid #e2e8f0;">
+          <div class="form-group" style="flex:2; margin-bottom:0;">
+            <label class="form-label">Payment Description:</label>
+            <input type="text" class="form-control" id="batchPurposeInput" value="Term 1 School Fees Payment">
+          </div>
+
+          <div class="form-group" style="flex:1; margin-bottom:0;">
+            <label class="form-label">Account Category:</label>
+            <select class="form-select" id="batchAccountSelect">
+              <option value="Tuition & Boarding Account">Tuition & Boarding Account</option>
+              <option value="Operations Account">Operations Account</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="flex:1; margin-bottom:0;">
+            <label class="form-label">Bulk Amount Setter:</label>
+            <div style="display:flex; gap:0.5rem;">
+              <input type="number" class="form-control" id="batchBulkAmountInput" placeholder="e.g. 25000">
+              <button type="button" class="btn btn-secondary btn-sm" id="btnBatchSetAllAmount">Apply to All</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Class Roster Table -->
+        <div class="table-responsive" style="margin-bottom: 1.5rem;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:40px; text-align:center;">
+                  <input type="checkbox" id="batchSelectAllCb" checked>
+                </th>
+                <th>Adm No</th>
+                <th>Student Full Name</th>
+                <th>Outstanding Balance</th>
+                <th>Amount to Bill / Pay (Ksh)</th>
+                <th>Bank Slip / Ref No</th>
+              </tr>
+            </thead>
+            <tbody id="batchStudentsTbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Batch Generation Button -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <button class="btn btn-crimson btn-lg" id="btnGenerateClassBatch">
+            <span>⚡</span> Generate All Receipts for Selected Class
+          </button>
+
+          <div id="batchResultsActions" style="display:none; gap:0.75rem; align-items:center;">
+            <span id="batchResultsSummary" style="font-weight:600; color:#15803d;"></span>
+            <button class="btn btn-primary btn-lg" id="btnPrintClassBatch">
+              <span>🖨️</span> Print Batch Receipts / Save PDF
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batch Preview Section -->
+      <div class="card" style="margin-top: 1.5rem;">
+        <div class="card-header">
+          <div class="card-title"><span>👁️</span> Class Batch Print Preview</div>
+        </div>
+        <div class="receipt-container-preview" id="batchReceiptsPreviewArea">
+          <p style="color:#64748b; padding:2rem; text-align:center;">
+            Click <strong>"Generate All Receipts for Selected Class"</strong> above to preview and print the class batch.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. MoE CAPITATION (FSDE) PANEL -->
+    <div id="capitationReceiptPanel" class="tab-panel">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span>🏛️</span> MoE Government Capitation Receipt</div>
+            <span class="badge-tag" style="background:#fef2f2; color:#991b1b;">Sample Demo Format</span>
+          </div>
+          <p style="font-size:0.88rem; color:#64748b; margin-bottom:1rem;">
+            Matches the official school receipt format for recording Free Secondary Day Education (FSDE) capitation funds, grants, and bursaries received from the Ministry of Education.
+          </p>
+
+          <div class="form-row">
+            <div class="form-group" style="flex:2;">
+              <label class="form-label">Received From:</label>
+              <input type="text" class="form-control" id="capReceivedFrom" value="MINISTRY OF EDUCATION">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">Date:</label>
+              <input type="date" class="form-control" id="capDateInput">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Account:</label>
+              <select class="form-select" id="capAccount">
+                <option value="Operations Account">Operations Account</option>
+                <option value="Tuition Account">Tuition Account</option>
+                <option value="Infrastructure Account">Infrastructure Account</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mode of Pay:</label>
+              <input type="text" class="form-control" id="capMode" value="EFT">
+            </div>
+            <div class="form-group">
+              <label class="form-label">EFT / Chq / Ref No:</label>
+              <input type="text" class="form-control" id="capRef" value="EFT23352520811">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Being Payment For:</label>
+            <input type="text" class="form-control" id="capPurpose" value="FSDE funds third term">
+          </div>
+
+          <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:1rem; margin-bottom:1.25rem;">
+            <div style="font-weight:bold; color:#1e3a8a; margin-bottom:0.75rem;">Capitation Vote Heads Breakdown (Ksh)</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">EWC:</label>
+                <input type="number" class="form-control" id="capEWC" value="55218.00">
+              </div>
+              <div class="form-group">
+                <label class="form-label">LT&T:</label>
+                <input type="number" class="form-control" id="capLTT" value="55218.00">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">PEmoluments:</label>
+                <input type="number" class="form-control" id="capPEmoluments" value="300000.00">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Admin Cost:</label>
+                <input type="number" class="form-control" id="capAdmin" value="50000.00">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Activity:</label>
+                <input type="number" class="form-control" id="capActivity" value="23624.65">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Infrastructure:</label>
+                <input type="number" class="form-control" id="capInfra" value="155400.00">
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:0.75rem;">
+            <button class="btn btn-primary" id="btnGenerateCapitation">
+              <span>🧾</span> Generate Official Receipt
+            </button>
+            <button class="btn btn-crimson" id="btnPrintCapitation" style="display:none;">
+              <span>🖨️</span> Print Capitation Receipt
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="padding: 1rem;">
+            <div class="card-header">
+              <div class="card-title"><span>👁️</span> Capitation Receipt Preview</div>
+            </div>
+            <div class="receipt-container-preview" id="capitationPreviewArea">
+              <!-- Live preview -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. FEE STRUCTURE GENERATOR PANEL -->
+    <div id="feeStructurePanel" class="tab-panel">
+      <div class="card no-print">
+        <div class="card-header">
+          <div class="card-title"><span>📋</span> Official School Fee Structure Generator</div>
+          <div style="display:flex; gap:0.75rem;">
+            <select class="form-select" id="fsClassSelect" style="width:180px; font-weight:bold;">
+              <option value="Form 1">Form 1</option>
+              <option value="Form 2">Form 2</option>
+              <option value="Form 3">Form 3</option>
+              <option value="Form 4">Form 4</option>
+            </select>
+            <button class="btn btn-primary" id="btnPrintFeeStructure">
+              <span>🖨️</span> Print Official Fee Structure / Save PDF
+            </button>
+          </div>
+        </div>
+        <p style="font-size:0.88rem; color:#64748b; margin-bottom:0.5rem;">
+          Generates an official fee structure on school letterhead with the crest logo, term-by-term vote head breakdowns, official bank accounts, and M-Pesa payment channels.
+        </p>
+      </div>
+
+      <!-- Preview -->
+      <div id="feeStructurePreviewArea">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+
+    <!-- 8. RECEIPT HISTORY PANEL -->
+    <div id="historyPanel" class="tab-panel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>📜</span> School Receipt Registry & Audit Log</div>
+          <button class="btn btn-secondary" id="btnExportHistoryCSV">
+            <span>📊</span> Export All Records to Excel / CSV
+          </button>
+        </div>
+
+        <div class="form-row" style="margin-bottom: 1.25rem;">
+          <div class="form-group">
+            <label class="form-label">Filter by Type:</label>
+            <select class="form-select" id="historyTypeFilter">
+              <option value="All">All Types</option>
+              <option value="student">Student Fee Receipts</option>
+              <option value="capitation">MoE Capitation Receipts</option>
+              <option value="vendor">Vendor Payment Vouchers</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:2;">
+            <label class="form-label">Search Receipts:</label>
+            <input type="text" class="form-control" id="historySearchInput" placeholder="Search by Receipt No, Student Name, Adm No, Purpose...">
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Receipt No</th>
+                <th>Date</th>
+                <th>Received From / Paid To</th>
+                <th>Class / Category</th>
+                <th>Payment Mode</th>
+                <th>Amount (Ksh)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. SETTINGS PANEL -->
+    <div id="settingsPanel" class="tab-panel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>⚙️</span> School Profile & System Configuration</div>
+        </div>
+
+        <form id="settingsForm">
+          <div class="form-row">
+            <div class="form-group" style="flex:2;">
+              <label class="form-label">School Full Official Name:</label>
+              <input type="text" class="form-control" id="setSchoolName">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">School Motto:</label>
+              <input type="text" class="form-control" id="setMotto">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Postal Box Address:</label>
+              <input type="text" class="form-control" id="setPostalBox">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telephone Contact:</label>
+              <input type="text" class="form-control" id="setTel">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address:</label>
+              <input type="email" class="form-control" id="setEmail">
+            </div>
+          </div>
+
+          <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
+            <div style="font-weight:bold; color:#1e3a8a; margin-bottom:0.75rem;">School Bank & M-Pesa Channels</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Bank Name:</label>
+                <input type="text" class="form-control" id="setBankName">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Branch:</label>
+                <input type="text" class="form-control" id="setBankBranch">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Account Number:</label>
+                <input type="text" class="form-control" id="setAccountNo">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">M-Pesa Paybill / Till:</label>
+                <input type="text" class="form-control" id="setPaybillNo">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Account Ref Instructions:</label>
+                <input type="text" class="form-control" id="setPaybillAcc">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Bursar Title / Signatory:</label>
+              <input type="text" class="form-control" id="setBursarName">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Principal Title / Signatory:</label>
+              <input type="text" class="form-control" id="setPrincipalName">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Receipt Serial Prefix:</label>
+              <input type="text" class="form-control" id="setSerialPrefix">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Next Receipt Number Counter:</label>
+              <input type="number" class="form-control" id="setNextReceiptNo">
+            </div>
+            <div class="form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top:1.5rem;">
+              <input type="checkbox" id="setShowStamp" style="width:18px; height:18px;">
+              <label for="setShowStamp" style="font-weight:600; cursor:pointer;">Display Official Stamp Watermark</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top:1rem;">
+            <span>💾</span> Save School Profile & Settings
+          </button>
+        </form>
+
+        <hr style="margin:2rem 0; border:0; border-top:1px solid #e2e8f0;">
+
+        <!-- Backup and Restore -->
+        <div class="card-title" style="margin-bottom:1rem;"><span>🛡️</span> Data Backup & System Restore</div>
+        <p style="font-size:0.88rem; color:#64748b; margin-bottom:1rem;">
+          Download a full backup of all school records (students, vendors, receipts, fee structures) or restore from an existing backup file anytime.
+        </p>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" id="btnExportBackup"><span>📤</span> Download System Backup (JSON)</button>
+          <button class="btn btn-secondary" id="btnImportBackup"><span>📥</span> Restore from Backup File</button>
+          <input type="file" id="backupFileInput" accept=".json" style="display:none;">
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================
+       MODALS
+       ========================================================= -->
+
+  <!-- Add/Edit Student Modal -->
+  <div class="modal-overlay" id="studentModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="card-title" id="studentModalTitle">Add New Student</div>
+        <button class="modal-close" onclick="closeModal('studentModal')">&times;</button>
+      </div>
+
+      <form id="studentModalForm">
+        <input type="hidden" id="studentModalId">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Admission Number *</label>
+            <input type="text" class="form-control" id="studentModalAdm" placeholder="e.g. NG0106" required>
+          </div>
+          <div class="form-group" style="flex:2;">
+            <label class="form-label">Student Full Name *</label>
+            <input type="text" class="form-control" id="studentModalName" placeholder="e.g. GLADYS CHEPKORIR" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Class / Form *</label>
+            <select class="form-select" id="studentModalClass" required>
+              <option value="Form 1">Form 1</option>
+              <option value="Form 2">Form 2</option>
+              <option value="Form 3">Form 3</option>
+              <option value="Form 4">Form 4</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Parent / Guardian Name</label>
+            <input type="text" class="form-control" id="studentModalParent" placeholder="e.g. Samuel Chepkorir">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Parent Phone Number</label>
+            <input type="text" class="form-control" id="studentModalPhone" placeholder="e.g. 0712345678">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Term Fee Amount (Ksh)</label>
+            <input type="number" class="form-control" id="studentModalFee" value="25000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current Outstanding Balance (Ksh)</label>
+            <input type="number" class="form-control" id="studentModalBalance" value="25000">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('studentModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add/Edit Vendor Modal -->
+  <div class="modal-overlay" id="vendorModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="card-title" id="vendorModalTitle">Add New Vendor / Supplier</div>
+        <button class="modal-close" onclick="closeModal('vendorModal')">&times;</button>
+      </div>
+
+      <form id="vendorModalForm">
+        <input type="hidden" id="vendorModalId">
+        <div class="form-row">
+          <div class="form-group" style="flex:2;">
+            <label class="form-label">Vendor / Company Name *</label>
+            <input type="text" class="form-control" id="vendorModalName" placeholder="e.g. WAMBA MEAT & BUTCHERY" required>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label class="form-label">Category / Service *</label>
+            <input type="text" class="form-control" id="vendorModalCategory" placeholder="e.g. Fresh Meat / Food" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Contact Person</label>
+            <input type="text" class="form-control" id="vendorModalContact" placeholder="e.g. Francis Leparkir">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telephone</label>
+            <input type="text" class="form-control" id="vendorModalPhone" placeholder="e.g. 0722001122">
+          </div>
+          <div class="form-group">
+            <label class="form-label">KRA PIN</label>
+            <input type="text" class="form-control" id="vendorModalKRA" placeholder="e.g. P051234567A">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-row" style="flex:1;">
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">Total Amount Paid So Far (Ksh)</label>
+              <input type="number" class="form-control" id="vendorModalTotalPaid" value="0">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">Pending / Outstanding Debt (Ksh)</label>
+              <input type="number" class="form-control" id="vendorModalBalance" value="0">
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('vendorModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Vendor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dedicated Print Container for High Resolution Clean Paper Output -->
+  <div id="printContainer" style="display:none;"></div>
+
+  <!-- Scripts -->
+  <script src="logo_base64.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

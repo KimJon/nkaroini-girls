@@ -1,0 +1,964 @@
+/* =========================================================
+   NKARONI GIRLS SENIOR SCHOOL - STUDENT & FEE SYSTEM
+   Complete Stylesheet & Print Layout Engine
+   ========================================================= */
+
+:root {
+  --primary: #1e3a8a;       /* Deep School Blue */
+  --primary-dark: #172554;
+  --primary-light: #3b82f6;
+  --secondary: #991b1b;     /* School Crimson Red */
+  --secondary-light: #ef4444;
+  --accent: #d97706;        /* Gold / Ochre */
+  --bg-main: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --border-light: #e2e8f0;
+  --success: #16a34a;
+  --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-serif: 'Times New Roman', Times, Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* App Header */
+header.app-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+  color: #ffffff;
+  padding: 0.9rem 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 4px solid var(--secondary);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.brand-logo {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  background-color: #ffffff;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.brand-titles h1 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.brand-titles p {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  font-style: italic;
+}
+
+.header-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.badge-tag {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* Navigation Tabs */
+nav.app-nav {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 2rem;
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.nav-tab {
+  background: none;
+  border: none;
+  padding: 0.9rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  color: var(--primary);
+  background-color: #f8fafc;
+}
+
+.nav-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--secondary);
+  background-color: #eff6ff;
+}
+
+/* Main Container */
+main.app-main {
+  padding: 1.75rem 2rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Tab Panels */
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  padding: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 1024px) {
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Stat Cards */
+.stat-card {
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background-color: #eff6ff;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.stat-card.red .stat-icon { background-color: #fef2f2; color: var(--secondary); }
+.stat-card.green .stat-icon { background-color: #f0fdf4; color: var(--success); }
+.stat-card.amber .stat-icon { background-color: #fffbeb; color: var(--accent); }
+
+.stat-info .stat-value {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.stat-info .stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: #334155;
+}
+
+.form-control, .form-select {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background-color: #ffffff;
+  transition: all 0.15s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-primary { background-color: var(--primary); color: #ffffff; }
+.btn-primary:hover { background-color: var(--primary-dark); }
+.btn-secondary { background-color: #f1f5f9; border-color: #cbd5e1; color: #334155; }
+.btn-secondary:hover { background-color: #e2e8f0; }
+.btn-crimson { background-color: var(--secondary); color: #ffffff; }
+.btn-crimson:hover { background-color: #7f1d1d; }
+.btn-success { background-color: var(--success); color: #ffffff; }
+.btn-success:hover { background-color: #15803d; }
+.btn-outline-primary { border-color: var(--primary); color: var(--primary); background: transparent; }
+.btn-outline-primary:hover { background: #eff6ff; }
+.btn-sm { padding: 0.35rem 0.65rem; font-size: 0.8rem; }
+.btn-lg { padding: 0.75rem 1.6rem; font-size: 1rem; }
+
+/* Tables */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+table.data-table th {
+  background-color: #f8fafc;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid var(--border-light);
+  white-space: nowrap;
+}
+
+table.data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+table.data-table tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Modals */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 750px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  padding: 1.75rem;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #94a3b8;
+}
+
+.modal-close:hover { color: #334155; }
+
+/* =========================================================
+   AUTHENTIC SCHOOL RECEIPT DESIGN
+   ========================================================= */
+
+.receipt-container-preview {
+  background: #cbd5e1;
+  padding: 1.5rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.receipt-sheet {
+  width: 210mm;
+  min-height: 148mm;
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  padding: 16mm 20mm;
+  font-family: var(--font-serif);
+  color: #111827;
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+}
+
+/* Top Header */
+.rc-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.rc-school-meta {
+  flex: 1;
+}
+
+.rc-school-name {
+  font-family: var(--font-serif);
+  font-size: 23px;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+  color: #1a365d;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.rc-contact-info {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #27272a;
+}
+
+.rc-contact-info strong {
+  font-weight: 600;
+}
+
+.rc-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.rc-copy-type {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #475569;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+}
+
+.rc-logo-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+/* Title */
+.rc-title-bar {
+  text-align: center;
+  margin: 6px 0 10px 0;
+}
+
+.rc-title {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #334155;
+  display: inline-block;
+  border-bottom: 1px solid #94a3b8;
+  padding-bottom: 2px;
+}
+
+/* Serial & Account row */
+.rc-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13.5px;
+  margin-bottom: 10px;
+}
+
+.rc-serial-red {
+  color: #b91c1c;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.rc-account-name {
+  font-weight: bold;
+  font-size: 13.5px;
+}
+
+/* Details Grid */
+.rc-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-bottom: 10px;
+}
+
+.rc-details-table td {
+  padding: 3px 0;
+  vertical-align: top;
+}
+
+.rc-label {
+  font-weight: bold;
+  white-space: nowrap;
+  padding-right: 6px;
+}
+
+.rc-val {
+  border-bottom: 1px dotted #64748b;
+  padding: 0 4px 1px 4px;
+}
+
+.rc-words-box {
+  margin: 5px 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Balance Badge on Receipt */
+.rc-balance-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+}
+
+/* Vote Heads Breakdown */
+.rc-voteheads-section {
+  margin: 10px 0;
+}
+
+.rc-voteheads-heading {
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-decoration: underline;
+  margin-bottom: 5px;
+  color: #1e3a8a;
+}
+
+.rc-voteheads-table {
+  width: 75%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.rc-voteheads-table td {
+  padding: 2px 6px;
+}
+
+.rc-vh-name {
+  font-weight: 600;
+  color: #1e293b;
+  width: 60%;
+}
+
+.rc-vh-amount {
+  text-align: right;
+  width: 40%;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+.rc-total-row {
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+  font-weight: bold;
+}
+
+.rc-total-row td {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 13.5px;
+}
+
+/* Footer Section */
+.rc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 18px;
+  position: relative;
+}
+
+.rc-voucher-no {
+  font-style: italic;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Stamp */
+.rc-rubber-stamp {
+  position: absolute;
+  left: 36%;
+  bottom: -4px;
+  transform: rotate(-10deg);
+  border: 2px dashed #2563eb;
+  color: #1d4ed8;
+  border-radius: 6px;
+  padding: 6px 12px;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 1.2;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.rc-rubber-stamp .stamp-title {
+  font-size: 11.5px;
+  letter-spacing: 0.5px;
+}
+
+.rc-signature-box {
+  text-align: center;
+  min-width: 170px;
+}
+
+.rc-sig-line {
+  border-bottom: 1px solid #111827;
+  height: 24px;
+  margin-bottom: 2px;
+}
+
+.rc-sig-title {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.rc-sig-sub {
+  font-size: 11px;
+  color: #4b5563;
+}
+
+.rc-watermark-vertical {
+  position: absolute;
+  right: 12px;
+  top: 40%;
+  transform: rotate(90deg);
+  transform-origin: right top;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: rgba(148, 163, 184, 0.4);
+  letter-spacing: 1.5px;
+  pointer-events: none;
+}
+
+/* =========================================================
+   FEE STRUCTURE DESIGN (OFFICIAL SCHOOL LETTERHEAD)
+   ========================================================= */
+
+.feestructure-sheet {
+  width: 210mm;
+  min-height: 297mm; /* Full A4 page */
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  padding: 18mm 20mm;
+  font-family: var(--font-serif);
+  color: #0f172a;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto 2rem auto;
+}
+
+.fs-letterhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #1e3a8a;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.fs-crest {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.fs-center-header {
+  text-align: center;
+  flex: 1;
+  padding: 0 15px;
+}
+
+.fs-school-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1e3a8a;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.fs-motto {
+  font-size: 12px;
+  font-style: italic;
+  color: #991b1b;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.fs-address {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.35;
+}
+
+.fs-doc-title-bar {
+  text-align: center;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+}
+
+.fs-doc-title {
+  font-size: 17px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #1e293b;
+  letter-spacing: 1px;
+}
+
+.fs-class-badge {
+  font-size: 14px;
+  color: #991b1b;
+  font-weight: bold;
+  margin-top: 2px;
+}
+
+/* Fee Structure Table */
+table.fs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-bottom: 16px;
+}
+
+table.fs-table th {
+  background-color: #1e3a8a;
+  color: #ffffff;
+  padding: 7px 10px;
+  text-align: left;
+  border: 1px solid #172554;
+  font-weight: bold;
+}
+
+table.fs-table th.text-right {
+  text-align: right;
+}
+
+table.fs-table td {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+}
+
+table.fs-table td.text-right {
+  text-align: right;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+}
+
+table.fs-table tr.total-row {
+  background-color: #f8fafc;
+  font-weight: bold;
+}
+
+table.fs-table tr.total-row td {
+  border-top: 2px solid #0f172a;
+  border-bottom: 2px solid #0f172a;
+  font-size: 14px;
+}
+
+table.fs-table tr.subsidy-row {
+  background-color: #fef2f2;
+  color: #991b1b;
+  font-style: italic;
+}
+
+/* Banking Details Box */
+.fs-payment-instructions {
+  border: 1.5px solid #1e3a8a;
+  border-radius: 6px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.fs-pay-title {
+  font-weight: bold;
+  color: #1e3a8a;
+  font-size: 14px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fs-pay-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.fs-notes-box {
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.fs-notes-box ol {
+  padding-left: 18px;
+}
+
+/* Sign-off */
+.fs-endorsement {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 25px;
+  position: relative;
+}
+
+.fs-sig-block {
+  text-align: center;
+  min-width: 180px;
+}
+
+.fs-sig-line {
+  border-bottom: 1px solid #0f172a;
+  height: 35px;
+  margin-bottom: 4px;
+}
+
+.fs-stamp-watermark {
+  position: absolute;
+  left: 40%;
+  bottom: -6px;
+  transform: rotate(-10deg);
+  border: 2px dashed #1d4ed8;
+  color: #1d4ed8;
+  border-radius: 6px;
+  padding: 8px 14px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* =========================================================
+   PRINT MEDIA RULES
+   ========================================================= */
+
+@media print {
+  body {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  header.app-header,
+  nav.app-nav,
+  .no-print,
+  .print-controls,
+  .modal-overlay {
+    display: none !important;
+  }
+
+  main.app-main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .tab-panel {
+    display: none !important;
+  }
+
+  #printContainer {
+    display: block !important;
+  }
+
+  .receipt-container-preview {
+    background: transparent !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .receipt-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    page-break-after: always;
+    page-break-inside: avoid;
+    border: none !important;
+    width: 100% !important;
+    padding: 10mm 15mm !important;
+  }
+
+  .receipt-sheet.half-page {
+    min-height: 138mm !important;
+    padding: 8mm 12mm !important;
+    border-bottom: 1px dashed #94a3b8 !important;
+    page-break-after: auto;
+  }
+
+  .receipt-sheet.half-page:nth-child(2n) {
+    page-break-after: always;
+    border-bottom: none !important;
+  }
+
+  .feestructure-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    page-break-after: always;
+    width: 100% !important;
+    padding: 12mm 15mm !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+}
